@@ -41,6 +41,102 @@ const userSchema = new mongoose.Schema({
     enum: ['active', 'suspended'],
     default: 'active'
   },
+  
+  // NEW FIELDS - Personal Details
+  firstName: {
+    type: String,
+    trim: true
+  },
+  middleName: {
+    type: String,
+    trim: true
+  },
+  lastName: {
+    type: String,
+    trim: true
+  },
+  country: {
+    type: String,
+    trim: true
+  },
+  state: {
+    type: String,
+    trim: true
+  },
+  city: {
+    type: String,
+    trim: true
+  },
+  zipCode: {
+    type: String,
+    trim: true
+  },
+  dateOfBirth: {
+    type: Date
+  },
+  houseAddress: {
+    type: String,
+    trim: true
+  },
+  phoneNumber: {
+    type: String,
+    trim: true
+  },
+  
+  // Employment Information
+  occupation: {
+    type: String,
+    trim: true
+  },
+  annualIncome: {
+    type: String,
+    trim: true
+  },
+  
+  // Banking Details
+  accountType: {
+    type: String,
+    enum: ['Savings', 'Checking', 'Business', ''],
+    default: ''
+  },
+  accountCurrency: {
+    type: String,
+    default: 'USD'
+  },
+  twoFactorPin: {
+    type: String,
+    select: false
+  },
+  passportPhoto: {
+    type: String // Base64 string
+  },
+  
+
+
+
+// Add these fields before createdAt
+kycStatus: {
+  type: String,
+  enum: ['not_submitted', 'pending', 'verified', 'rejected'],
+  default: 'not_submitted'
+},
+kycDocuments: {
+  idCardFront: { type: String }, // Base64
+  idCardBack: { type: String },  // Base64
+  proofOfAddress: { type: String }, // Base64
+  selfieWithId: { type: String }  // Base64
+},
+kycSubmittedAt: {
+  type: Date
+},
+kycVerifiedAt: {
+  type: Date
+},
+kycRejectionReason: {
+  type: String
+},
+
+
   createdAt: {
     type: Date,
     default: Date.now
@@ -67,3 +163,4 @@ userSchema.statics.generateAccountNumber = function() {
 };
 
 module.exports = mongoose.model('User', userSchema);
+

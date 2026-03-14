@@ -165,6 +165,47 @@ router.delete('/users/:id', protect, admin, async (req, res) => {
   }
 });
 
+
+
+// @route   PUT /api/admin/users/:id/fund
+// @desc    Fund user account
+// @access  Admin only
+router.put('/users/:id/fund', protect, admin, async (req, res) => {
+  try {
+    const { amount } = req.body;
+    const user = await User.findById(req.params.id);
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found'
+      });
+    }
+
+    user.balance += parseFloat(amount);
+    await user.save();
+
+    // Create transaction record
+    await Transaction.create({
+      userId: user._id,
+      type: 'credit',
+      amount: parseFloat(amount),
+      description: 'Admin funding',
+      balanceAfter: user.balance
+    });
+
+    res.json({
+      success: true,
+      data: user,
+      message: `Successfully funded ${user.fullName} with ${amount}`
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Server error'
+    });
+  }
+});
 // @route   POST /api/admin/users/:id/transaction
 // @desc    Add transaction for user
 // @access  Private/Admin

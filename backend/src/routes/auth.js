@@ -6,8 +6,7 @@ const { generateToken } = require('../middleware/auth');
 const { body, validationResult } = require('express-validator');
 
 // @route   POST /api/auth/register
-// @desc    Register new user
-// @access  Public
+
 router.post('/register', [
   body('fullName').trim().notEmpty().withMessage('Full name is required'),
   body('email').isEmail().withMessage('Please provide a valid email'),
@@ -22,7 +21,28 @@ router.post('/register', [
       });
     }
 
-    const { fullName, email, password } = req.body;
+    const { 
+      fullName, 
+      email, 
+      password,
+      // NEW FIELDS
+      firstName,
+      middleName,
+      lastName,
+      country,
+      state,
+      city,
+      zipCode,
+      dateOfBirth,
+      houseAddress,
+      phoneNumber,
+      occupation,
+      annualIncome,
+      accountType,
+      accountCurrency,
+      twoFactorPin,
+      passportPhoto
+    } = req.body;
 
     // Check if user exists
     const userExists = await User.findOne({ email });
@@ -36,13 +56,30 @@ router.post('/register', [
     // Generate account number
     const accountNumber = User.generateAccountNumber();
 
-    // Create user
+    // Create user with ALL fields
     const user = await User.create({
       fullName,
       email,
       password,
       accountNumber,
-      balance: 1000.00 // Initial demo balance
+      balance: 1000.00, // Initial demo balance
+      // ADD ALL NEW FIELDS
+      firstName,
+      middleName,
+      lastName,
+      country,
+      state,
+      city,
+      zipCode,
+      dateOfBirth,
+      houseAddress,
+      phoneNumber,
+      occupation,
+      annualIncome,
+      accountType,
+      accountCurrency,
+      twoFactorPin,
+      passportPhoto
     });
 
     // Create initial transaction
@@ -55,17 +92,20 @@ router.post('/register', [
     });
 
     res.status(201).json({
-      success: true,
-      data: {
-        id: user._id,
-        fullName: user.fullName,
-        email: user.email,
-        accountNumber: user.accountNumber,
-        balance: user.balance,
-        role: user.role,
-        token: generateToken(user._id)
-      }
-    });
+  success: true,
+  data: {
+    id: user._id,
+    fullName: user.fullName,
+    email: user.email,
+    accountNumber: user.accountNumber,
+    balance: user.balance,
+    role: user.role,
+    kycStatus: user.kycStatus,
+    passportPhoto: user.passportPhoto,  
+    token: generateToken(user._id)
+  }
+});
+    
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -122,17 +162,20 @@ router.post('/login', [
     }
 
     res.json({
-      success: true,
-      data: {
-        id: user._id,
-        fullName: user.fullName,
-        email: user.email,
-        accountNumber: user.accountNumber,
-        balance: user.balance,
-        role: user.role,
-        token: generateToken(user._id)
-      }
-    });
+  success: true,
+  data: {
+    id: user._id,
+    fullName: user.fullName,
+    email: user.email,
+    accountNumber: user.accountNumber,
+    balance: user.balance,
+    role: user.role,
+    kycStatus: user.kycStatus,  
+    kycRejectionReason: user.kycRejectionReason,
+    passportPhoto: user.passportPhoto,  
+    token: generateToken(user._id)
+  }
+});
   } catch (error) {
     res.status(500).json({
       success: false,

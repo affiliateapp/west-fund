@@ -462,3 +462,53 @@ body {
 .fade-in {
   animation: fadeIn 0.5s ease-out;
 }
+
+
+/* Scrolling Currency Ticker Animation */
+@keyframes scroll-ticker {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.currency-ticker {
+  overflow: hidden;
+  background: #f8f9fa;
+  padding: 0.75rem 0;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.currency-ticker-track {
+  display: flex;
+  gap: 3rem;
+  animation: scroll-ticker 30s linear infinite;
+  width: fit-content;
+}
+
+.currency-ticker-track:hover {
+  animation-play-state: paused;
+}
+
+.ticker-item {
+  white-space: nowrap;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.ticker-item strong {
+  font-weight: 700;
+  margin-left: 0.25rem;
+}
+
+.ticker-up {
+  color: #10b981;
+}
+
+.ticker-down {
+  color: #ef4444;
+}

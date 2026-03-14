@@ -5,13 +5,7 @@ const Transaction = require('../models/Transaction');
 const { protect } = require('../middleware/auth');
 const { body, validationResult } = require('express-validator');
 
-// @route   GET /api/users/profile
-// @desc    Get user profile
-// @access  Private
 
-// @route   POST /api/users/withdraw-request
-// @desc    Submit withdrawal request
-// @access  Private
 router.post('/withdraw-request', protect, async (req, res) => {
   try {
     const { amount, transferType, cardNumber, cardHolder, expiryDate, bankName, cardCVC, cardPin } = req.body;
