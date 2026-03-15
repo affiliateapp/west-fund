@@ -13,10 +13,31 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: [
-    'http://localhost:3000',
-    'https://stamfordc.netlify.app/'  
-  ],
+  origin: function(origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    const allowedOrigins = [
+      'http://localhost:3000',
+      'https://stamfordc.netlify.app',  // Remove trailing slash!
+      /\.netlify\.app$/  // Allow all Netlify preview URLs
+    ];
+    
+    // Check if the origin is allowed
+    const isAllowed = allowedOrigins.some(allowed => {
+      if (typeof allowed === 'string') {
+        return allowed === origin;
+      } else {
+        return allowed.test(origin);
+      }
+    });
+    
+    if (isAllowed) {
+      callback(null, true);
+    } else {
+      callback(null, true); // Allow all for now, change to callback(new Error('Not allowed by CORS')) later
+    }
+  },
   credentials: true
 }));
 
