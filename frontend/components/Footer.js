@@ -1,81 +1,36 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
-const Footer = () => {
-  return (
-    <footer style={{
-      background: '#1e3c72',
-      color: 'white',
-      padding: '3rem 5%',
-      marginTop: 'auto'
-    }}>
-      <div style={{
-        maxWidth: '1200px',
-        margin: '0 auto',
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-        gap: '2rem'
-      }}>
+const Footer = () => (
+  <footer className="footer">
+    <div className="container">
+      <div className="disclaimer">
+        It's easy to answer your query online. Visit our Help page to find out how.
+      </div>
+      <div className="footer-content">
         <div>
-          <h3 style={{marginBottom: '1rem'}}>West Fund</h3>
-          <p style={{color: '#ccc', fontSize: '0.9rem'}}>
-            Your trusted partner in modern banking. Secure, fast, and reliable financial services.
-          </p>
+          <h3>Stamford</h3>
+          <p>Your trusted partner in financial services</p>
         </div>
-
         <div>
-          <h4 style={{marginBottom: '1rem'}}>Quick Links</h4>
-          <ul style={{listStyle: 'none', padding: 0}}>
-            <li style={{marginBottom: '0.5rem'}}>
-              <a href="#" style={{color: '#ccc', textDecoration: 'none'}}>About Us</a>
-            </li>
-            <li style={{marginBottom: '0.5rem'}}>
-              <a href="#" style={{color: '#ccc', textDecoration: 'none'}}>Services</a>
-            </li>
-            <li style={{marginBottom: '0.5rem'}}>
-              <a href="#" style={{color: '#ccc', textDecoration: 'none'}}>Contact</a>
-            </li>
-            <li style={{marginBottom: '0.5rem'}}>
-              <a href="#" style={{color: '#ccc', textDecoration: 'none'}}>FAQs</a>
-            </li>
+          <h3>Quick Links</h3>
+          <ul style={{listStyle: 'none'}}>
+            <li><Link to="/about" style={{color: 'white'}}>About Us</Link></li>
+            <li><Link to="/contact" style={{color: 'white'}}>Contact</Link></li>
+            <li><Link to="/savings" style={{color: 'white'}}>Savings</Link></li>
           </ul>
         </div>
-
         <div>
-          <h4 style={{marginBottom: '1rem'}}>Legal</h4>
-          <ul style={{listStyle: 'none', padding: 0}}>
-            <li style={{marginBottom: '0.5rem'}}>
-              <a href="#" style={{color: '#ccc', textDecoration: 'none'}}>Privacy Policy</a>
-            </li>
-            <li style={{marginBottom: '0.5rem'}}>
-              <a href="#" style={{color: '#ccc', textDecoration: 'none'}}>Terms of Service</a>
-            </li>
-            <li style={{marginBottom: '0.5rem'}}>
-              <a href="#" style={{color: '#ccc', textDecoration: 'none'}}>Security</a>
-            </li>
-          </ul>
-        </div>
-
-        <div>
-          <h4 style={{marginBottom: '1rem'}}>Contact Us</h4>
-          <p style={{color: '#ccc', fontSize: '0.9rem'}}>
-            📧 support@westfund.com<br />
-            📞 +1 (555) 123-4567<br />
-            📍 123 Banking Street, NY 10001
-          </p>
+          <h3>Contact</h3>
+          <p>Email: infoStamford.com</p>
+          <p>Phone: 1-800-Stamford</p>
         </div>
       </div>
-
-      <div style={{
-        borderTop: '1px solid rgba(255,255,255,0.1)',
-        marginTop: '2rem',
-        paddingTop: '2rem',
-        textAlign: 'center',
-        color: '#ccc'
-      }}>
-        <p>&copy; {new Date().getFullYear()} West Fund. All rights reserved.</p>
+      <div className="footer-bottom">
+        <p>&copy; 2025 Stamford. All rights reserved. | Stamford Banking System</p>
       </div>
-    </footer>
-  );
-};
+    </div>
+  </footer>
+);
 
 export default Footer;

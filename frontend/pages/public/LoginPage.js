@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { API_URL } from '../utils/constants';
+import { apiCall } from '../utils/api';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -39,23 +39,16 @@ const LoginPage = () => {
     setLoading(true);
 
     try {
-      const response = await fetch(`${API_URL}/auth/login`, {
+      const data = await apiCall('/auth/login', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
       });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Login failed');
-      }
 
       login(data.data, data.data.token);
       navigate(data.data.role === 'admin' ? '/admin' : '/dashboard');
     } catch (err) {
       setError(err.message);
-      generateCaptcha();
+      generateCaptcha(); 
     } finally {
       setLoading(false);
     }
@@ -76,74 +69,25 @@ const LoginPage = () => {
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label>Email</label>
-            <input
-              type="email"
-              className="form-control"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
+            <input type="email" className="form-control" value={email} onChange={(e) => setEmail(e.target.value)} required />
           </div>
 
           <div className="form-group">
             <label>Password</label>
-            <input
-              type="password"
-              className="form-control"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
+            <input type="password" className="form-control" value={password} onChange={(e) => setPassword(e.target.value)} required />
           </div>
 
           <div className="form-group">
             <label>Verification Code</label>
-            <div style={{
-              background: '#4169e1',
-              padding: '1.5rem',
-              borderRadius: '5px',
-              textAlign: 'center',
-              marginBottom: '1rem',
-              position: 'relative'
-            }}>
-              <div style={{
-                fontSize: '2rem',
-                fontWeight: 'bold',
-                color: 'white',
-                letterSpacing: '10px',
-                fontFamily: 'monospace',
-                userSelect: 'none',
-                transform: 'skew(-5deg)',
-                textShadow: '2px 2px 4px rgba(0,0,0,0.3)'
-              }}>
+            <div style={{background: '#4169e1', padding: '1.5rem', borderRadius: '5px', textAlign: 'center', marginBottom: '1rem', position: 'relative'}}>
+              <div style={{fontSize: '2rem', fontWeight: 'bold', color: 'white', letterSpacing: '10px', fontFamily: 'monospace', userSelect: 'none', transform: 'skew(-5deg)', textShadow: '2px 2px 4px rgba(0,0,0,0.3)'}}>
                 {captchaCode}
               </div>
-              <button
-                type="button"
-                onClick={generateCaptcha}
-                style={{
-                  position: 'absolute',
-                  top: '10px',
-                  right: '10px',
-                  background: 'transparent',
-                  border: 'none',
-                  color: 'white',
-                  cursor: 'pointer',
-                  fontSize: '1.2rem'
-                }}
-                title="Refresh CAPTCHA"
-              >
+              <button type="button" onClick={generateCaptcha} style={{position: 'absolute', top: '10px', right: '10px', background: 'transparent', border: 'none', color: 'white', cursor: 'pointer', fontSize: '1.2rem'}} title="Refresh CAPTCHA">
                 🔄
               </button>
             </div>
-            <input
-              type="text"
-              className="form-control"
-              value={captchaInput}
-              onChange={(e) => setCaptchaInput(e.target.value)}
-              placeholder="Enter code above"
-              required
-            />
+            <input type="text" className="form-control" value={captchaInput} onChange={(e) => setCaptchaInput(e.target.value)} placeholder="Enter code above" required />
           </div>
 
           <button type="submit" className="btn btn-primary" style={{width: '100%'}} disabled={loading}>

@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 
-// Context
+// Contexts
 import { AuthProvider } from './contexts/AuthContext';
 
 // Components
@@ -10,7 +10,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ProtectedRoute from './components/ProtectedRoute';
 
-// Public Pages
+// Pages
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import SavingsPage from './pages/SavingsPage';
@@ -20,22 +20,16 @@ import CardsPage from './pages/CardsPage';
 import ContactPage from './pages/ContactPage';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
-
-// User Pages
 import Dashboard from './pages/Dashboard';
 import TransferPage from './pages/TransferPage';
 import DepositPage from './pages/DepositPage';
 import ProfilePage from './pages/ProfilePage';
+import MyCardsPage from './pages/MyCardsPage';
 import WithdrawPage from './pages/WithdrawPage';
+import ATMWithdrawPage from './pages/ATMWithdrawPage';
+import RequestCardPage from './pages/RequestCardPage';
 import PendingWithdrawalsPage from './pages/PendingWithdrawalsPage';
 import KYCVerificationPage from './pages/KYCVerificationPage';
-
-// Card Pages
-import MyCardsPage from './pages/MyCardsPage';
-import RequestCardPage from './pages/RequestCardPage';
-import ATMWithdrawPage from './pages/ATMWithdrawPage';
-
-// Admin Pages
 import AdminDashboard from './pages/AdminDashboard';
 import AdminKYCReviewPage from './pages/AdminKYCReviewPage';
 

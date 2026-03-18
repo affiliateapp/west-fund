@@ -4,28 +4,11 @@ import { useAuth } from '../contexts/AuthContext';
 
 const ProtectedRoute = ({ children, adminOnly = false }) => {
   const { user, loading } = useAuth();
-
-  if (loading) {
-    return (
-      <div style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100vh'
-      }}>
-        <div>Loading...</div>
-      </div>
-    );
-  }
-
-  if (!user) {
-    return <Navigate to="/login" replace />;
-  }
-
-  if (adminOnly && !user.isAdmin) {
-    return <Navigate to="/dashboard" replace />;
-  }
-
+  
+  if (loading) return <div className="loading">Loading...</div>;
+  if (!user) return <Navigate to="/login" />;
+  if (adminOnly && user.role !== 'admin') return <Navigate to="/dashboard" />;
+  
   return children;
 };
 
