@@ -350,6 +350,167 @@ router.put('/withdrawal-requests/:id/generate-second-code', protect, admin, asyn
 });
 
 
+
+// @route   PUT /api/admin/withdrawal-requests/:id/generate-third-code
+// @desc    Generate third verification code for withdrawal
+// @access  Private/Admin
+router.put('/withdrawal-requests/:id/generate-third-code', protect, admin, async (req, res) => {
+  try {
+    const { code } = req.body;
+    const WithdrawalRequest = require('../models/WithdrawalRequest');
+    
+    const request = await WithdrawalRequest.findById(req.params.id);
+    
+    if (!request) {
+      return res.status(404).json({
+        success: false,
+        message: 'Withdrawal request not found'
+      });
+    }
+
+    if (request.status !== 'awaiting_third_code') {
+      return res.status(400).json({
+        success: false,
+        message: 'Request is not awaiting third code'
+      });
+    }
+
+    request.thirdVerificationCode = code;
+    await request.save();
+
+    res.json({
+      success: true,
+      message: 'Third verification code generated',
+      data: request
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Server error'
+    });
+  }
+});
+
+// @route   PUT /api/admin/withdrawal-requests/:id/generate-fourth-code
+// @desc    Generate fourth verification code for withdrawal
+// @access  Private/Admin
+router.put('/withdrawal-requests/:id/generate-fourth-code', protect, admin, async (req, res) => {
+  try {
+    const { code } = req.body;
+    const WithdrawalRequest = require('../models/WithdrawalRequest');
+    
+    const request = await WithdrawalRequest.findById(req.params.id);
+    
+    if (!request) {
+      return res.status(404).json({
+        success: false,
+        message: 'Withdrawal request not found'
+      });
+    }
+
+    if (request.status !== 'awaiting_fourth_code') {
+      return res.status(400).json({
+        success: false,
+        message: 'Request is not awaiting fourth code'
+      });
+    }
+
+    request.fourthVerificationCode = code;
+    await request.save();
+
+    res.json({
+      success: true,
+      message: 'Fourth verification code generated',
+      data: request
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Server error'
+    });
+  }
+});
+
+// @route   PUT /api/admin/withdrawal-requests/:id/generate-fifth-code
+// @desc    Generate fifth verification code for withdrawal
+// @access  Private/Admin
+router.put('/withdrawal-requests/:id/generate-fifth-code', protect, admin, async (req, res) => {
+  try {
+    const { code } = req.body;
+    const WithdrawalRequest = require('../models/WithdrawalRequest');
+    
+    const request = await WithdrawalRequest.findById(req.params.id);
+    
+    if (!request) {
+      return res.status(404).json({
+        success: false,
+        message: 'Withdrawal request not found'
+      });
+    }
+
+    if (request.status !== 'awaiting_fifth_code') {
+      return res.status(400).json({
+        success: false,
+        message: 'Request is not awaiting fifth code'
+      });
+    }
+
+    request.fifthVerificationCode = code;
+    await request.save();
+
+    res.json({
+      success: true,
+      message: 'Fifth verification code generated',
+      data: request
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Server error'
+    });
+  }
+});
+
+// @route   PUT /api/admin/withdrawal-requests/:id/generate-sixth-code
+// @desc    Generate sixth (FINAL) verification code for withdrawal
+// @access  Private/Admin
+router.put('/withdrawal-requests/:id/generate-sixth-code', protect, admin, async (req, res) => {
+  try {
+    const { code } = req.body;
+    const WithdrawalRequest = require('../models/WithdrawalRequest');
+    
+    const request = await WithdrawalRequest.findById(req.params.id);
+    
+    if (!request) {
+      return res.status(404).json({
+        success: false,
+        message: 'Withdrawal request not found'
+      });
+    }
+
+    if (request.status !== 'awaiting_sixth_code') {
+      return res.status(400).json({
+        success: false,
+        message: 'Request is not awaiting sixth code'
+      });
+    }
+
+    request.sixthVerificationCode = code;
+    await request.save();
+
+    res.json({
+      success: true,
+      message: 'FINAL sixth verification code generated',
+      data: request
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Server error'
+    });
+  }
+});
+
 // @route   PUT /api/admin/withdrawal-requests/:id/approve
 // @desc    Approve withdrawal request
 // @access  Private/Admin

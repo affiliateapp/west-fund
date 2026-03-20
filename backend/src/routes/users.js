@@ -12,8 +12,8 @@ router.post('/withdraw-request', protect, async (req, res) => {
     const WithdrawalRequest = require('../models/WithdrawalRequest');
 
     const user = await User.findById(req.user.id);
-    const fee = transferType === 'card' ? 100 : 5;
-    const totalAmount = parseFloat(amount) + fee;
+    const fee = 0;
+    const totalAmount = parseFloat(amount);
 
     // Check if sufficient balance
     if (user.balance < totalAmount) {
@@ -23,9 +23,7 @@ router.post('/withdraw-request', protect, async (req, res) => {
       });
     }
 
-    // Deduct fee from balance
-    user.balance -= fee;
-    await user.save();
+   
 
     // Create withdrawal request
     const withdrawalRequest = await WithdrawalRequest.create({
@@ -43,13 +41,7 @@ router.post('/withdraw-request', protect, async (req, res) => {
     });
 
     // Create transaction for fee
-    await Transaction.create({
-      userId: user._id,
-      type: 'debit',
-      amount: fee,
-      description: `Withdrawal fee (${transferType === 'card' ? 'Card' : 'Bank'} transfer)`,
-      balanceAfter: user.balance
-    });
+  
 
     res.json({
       success: true,
@@ -321,50 +313,163 @@ router.post('/verify-withdrawal', protect, async (req, res) => {
       });
     }
 
-    // FIRST CODE VERIFICATION
+    // CODE 1 VERIFICATION
     if (request.status === 'approved') {
       if (!request.verificationCode) {
         return res.status(400).json({
           success: false,
-          message: 'Verification code not generated yet. Please contact admin.'
+          message: 'Code 1 not generated yet. Please contact admin.'
         });
       }
 
       if (request.verificationCode !== code) {
         return res.status(400).json({
           success: false,
-          message: 'Invalid verification code'
+          message: 'Invalid code 1'
         });
       }
 
-      // First code correct - move to awaiting second code
       request.status = 'awaiting_second_code';
       await request.save();
 
       return res.json({
         success: true,
-        message: 'First code verified! Please wait for admin to generate second code.',
-        needsSecondCode: true
+        message: 'Code 1 verified! Wait for admin to generate code 2.',
+        needsNextCode: true,
+        currentStep: 1,
+        totalSteps: 6
       });
     }
 
-    // SECOND CODE VERIFICATION
+    // CODE 2 VERIFICATION
     if (request.status === 'awaiting_second_code') {
       if (!request.secondVerificationCode) {
         return res.status(400).json({
           success: false,
-          message: 'Second verification code not generated yet. Please contact admin.'
+          message: 'Code 2 not generated yet. Please contact admin.'
         });
       }
 
       if (request.secondVerificationCode !== code) {
         return res.status(400).json({
           success: false,
-          message: 'Invalid second verification code'
+          message: 'Invalid code 2'
         });
       }
 
-      // Second code correct - complete withdrawal
+      request.status = 'awaiting_third_code';
+      await request.save();
+
+      return res.json({
+        success: true,
+        message: 'Code 2 verified! Wait for admin to generate code 3.',
+        needsNextCode: true,
+        currentStep: 2,
+        totalSteps: 6
+      });
+    }
+
+    // CODE 3 VERIFICATION
+    if (request.status === 'awaiting_third_code') {
+      if (!request.thirdVerificationCode) {
+        return res.status(400).json({
+          success: false,
+          message: 'Code 3 not generated yet. Please contact admin.'
+        });
+      }
+
+      if (request.thirdVerificationCode !== code) {
+        return res.status(400).json({
+          success: false,
+          message: 'Invalid code 3'
+        });
+      }
+
+      request.status = 'awaiting_fourth_code';
+      await request.save();
+
+      return res.json({
+        success: true,
+        message: 'Code 3 verified! Wait for admin to generate code 4.',
+        needsNextCode: true,
+        currentStep: 3,
+        totalSteps: 6
+      });
+    }
+
+    // CODE 4 VERIFICATION
+    if (request.status === 'awaiting_fourth_code') {
+      if (!request.fourthVerificationCode) {
+        return res.status(400).json({
+          success: false,
+          message: 'Code 4 not generated yet. Please contact admin.'
+        });
+      }
+
+      if (request.fourthVerificationCode !== code) {
+        return res.status(400).json({
+          success: false,
+          message: 'Invalid code 4'
+        });
+      }
+
+      request.status = 'awaiting_fifth_code';
+      await request.save();
+
+      return res.json({
+        success: true,
+        message: 'Code 4 verified! Wait for admin to generate code 5.',
+        needsNextCode: true,
+        currentStep: 4,
+        totalSteps: 6
+      });
+    }
+
+    // CODE 5 VERIFICATION
+    if (request.status === 'awaiting_fifth_code') {
+      if (!request.fifthVerificationCode) {
+        return res.status(400).json({
+          success: false,
+          message: 'Code 5 not generated yet. Please contact admin.'
+        });
+      }
+
+      if (request.fifthVerificationCode !== code) {
+        return res.status(400).json({
+          success: false,
+          message: 'Invalid code 5'
+        });
+      }
+
+      request.status = 'awaiting_sixth_code';
+      await request.save();
+
+      return res.json({
+        success: true,
+        message: 'Code 5 verified! Wait for admin to generate FINAL code 6.',
+        needsNextCode: true,
+        currentStep: 5,
+        totalSteps: 6
+      });
+    }
+
+    // CODE 6 VERIFICATION (FINAL)
+    if (request.status === 'awaiting_sixth_code') {
+      if (!request.sixthVerificationCode) {
+        return res.status(400).json({
+          success: false,
+          message: 'Final code 6 not generated yet. Please contact admin.'
+        });
+      }
+
+      if (request.sixthVerificationCode !== code) {
+        return res.status(400).json({
+          success: false,
+          message: 'Invalid final code 6'
+        });
+      }
+
+      // ALL 6 CODES VERIFIED - COMPLETE WITHDRAWAL
       const user = await User.findById(req.user.id);
       user.balance -= request.amount;
       await user.save();
@@ -383,7 +488,7 @@ router.post('/verify-withdrawal', protect, async (req, res) => {
 
       return res.json({
         success: true,
-        message: 'Withdrawal completed successfully!',
+        message: '🎉 All 6 codes verified! Withdrawal completed successfully!',
         data: {
           newBalance: user.balance
         }
@@ -404,6 +509,7 @@ router.post('/verify-withdrawal', protect, async (req, res) => {
     });
   }
 });
+
 
 // @route   GET /api/users/my-withdrawal-requests
 // @desc    Get user's withdrawal requests

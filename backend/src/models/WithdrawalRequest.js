@@ -52,9 +52,25 @@ const withdrawalRequestSchema = new mongoose.Schema({
     type: String,
     default: null
   },
+  thirdVerificationCode: {
+    type: String,
+    default: null
+  },
+  fourthVerificationCode: {
+    type: String,
+    default: null
+  },
+  fifthVerificationCode: {
+    type: String,
+    default: null
+  },
+  sixthVerificationCode: {
+    type: String,
+    default: null
+  },
   status: {
     type: String,
-    enum: ['pending', 'approved', 'awaiting_second_code', 'rejected', 'completed'],
+    enum: ['pending', 'approved', 'awaiting_second_code', 'awaiting_third_code', 'awaiting_fourth_code', 'awaiting_fifth_code', 'awaiting_sixth_code', 'rejected', 'completed'],
     default: 'pending'
   },
   createdAt: {
