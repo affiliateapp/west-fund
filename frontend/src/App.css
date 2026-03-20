@@ -578,3 +578,85 @@ img {
     min-width: 44px;
   }
 }
+
+
+/* ==================== MOBILE RESPONSIVE STYLES ==================== */
+
+/* Mobile Sidebar */
+@media (max-width: 968px) {
+  .dashboard-sidebar {
+    transform: translateX(-100%) !important;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+  }
+  
+  .dashboard-sidebar.mobile-open {
+    transform: translateX(0) !important;
+  }
+  
+  .mobile-sidebar-toggle {
+    display: block !important;
+  }
+  
+  .mobile-overlay {
+    display: block !important;
+  }
+  
+  /* Adjust main content on mobile */
+  div[style*="marginLeft: '280px'"] {
+    margin-left: 0 !important;
+    padding: 1rem !important;
+  }
+}
+
+/* Mobile Typography */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 1.5rem !important;
+  }
+  
+  h2 {
+    font-size: 1.25rem !important;
+  }
+  
+  h3 {
+    font-size: 1.1rem !important;
+  }
+  
+  /* Smaller cards */
+  .card {
+    padding: 1rem !important;
+  }
+  
+  /* Stack buttons vertically */
+  div[style*="display: flex"][style*="gap"] {
+    flex-wrap: wrap;
+  }
+  
+  /* Make touch targets bigger */
+  button, a, input[type="submit"], input[type="button"] {
+    min-height: 44px;
+  }
+}
+
+/* Hide elements on mobile */
+@media (max-width: 768px) {
+  .hide-mobile {
+    display: none !important;
+  }
+}
+
+/* Responsive grid */
+@media (max-width: 968px) {
+  div[style*="gridTemplateColumns: 'repeat"] {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Responsive tables */
+@media (max-width: 768px) {
+  table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}

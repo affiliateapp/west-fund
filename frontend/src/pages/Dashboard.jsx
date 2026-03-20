@@ -9,6 +9,7 @@ const Dashboard = () => {
   const [balance, setBalance] = useState(0);
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     fetchData();
@@ -32,9 +33,29 @@ const Dashboard = () => {
   if (loading) return <div className="loading">Loading...</div>;
 
   return (
-    <div style={{display: 'flex', minHeight: '100vh', background: '#f5f7fa'}}>
+    <div style={{display: 'flex', minHeight: '100vh', background: '#f5f7fa', position: 'relative'}}>
+      {/* Mobile Overlay */}
+      {sidebarOpen && (
+        <div 
+          onClick={() => setSidebarOpen(false)}
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: 'rgba(0,0,0,0.5)',
+            zIndex: 998
+          }}
+          className="mobile-overlay"
+        />
+      )}
+
       {/* Sidebar */}
-      <div style={{width: '280px', background: 'white', padding: '1.5rem 1rem', borderRight: '1px solid #e0e0e0', position: 'fixed', height: '100vh', overflowY: 'auto'}}>
+      <div 
+        className={`dashboard-sidebar ${sidebarOpen ? 'mobile-open' : ''}`}
+        style={{width: '280px', background: 'white', padding: '1.5rem 1rem', borderRight: '1px solid #e0e0e0', position: 'fixed', height: '100vh', overflowY: 'auto', zIndex: 999, transition: 'transform 0.3s ease'}}
+      >
         <div style={{marginBottom: '1.5rem'}}>
           <h2 style={{color: 'var(--primary-navy)', fontSize: '1.3rem', margin: 0}}>Stamford Members Credit Union</h2>
         </div>
@@ -51,7 +72,7 @@ const Dashboard = () => {
           <Link to="/transfer" className="btn btn-primary" style={{width: '100%', padding: '0.5rem', fontSize: '0.85rem'}}>💸 TRANSFER</Link>
           <button className="btn btn-danger" style={{width: '100%', padding: '0.5rem', fontSize: '0.85rem'}}>📄 PAY BILLS</button>
           <Link to="/pending-withdrawals" className="btn" style={{width: '100%', padding: '0.5rem', fontSize: '0.85rem', background: '#9c27b0', color: 'white'}}>📋 MY WITHDRAWALS</Link>
-          <Link to="/withdraw" className="btn btn-success" style={{width: '100%', padding: '0.5rem', fontSize: '0.85rem'}}>WITHDRAW FUNDS</Link>
+          <Link to="/withdraw" className="btn btn-success" style={{width: '100%', padding: '0.5rem', fontSize: '0.85rem'}}>💸 WITHDRAW FUNDS</Link>
         </div>
 
         {/* Menu */}
@@ -76,14 +97,14 @@ const Dashboard = () => {
       </div>
 
       {/* Main Content */}
-      <div style={{marginLeft: '280px', flex: 1, padding: '2rem'}}>
+      <div className="dashboard-main-content" style={{marginLeft: '280px', flex: 1, padding: '2rem'}}>
         {/* Header */}
-        <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem'}}>
+        <div className="dashboard-header" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem', flexWrap: 'wrap', gap: '1rem'}}>
           <div>
             <h1 style={{fontSize: '1.75rem', color: 'var(--primary-navy)', marginBottom: '0.5rem'}}>Good Day! {user.fullName}</h1>
             <p style={{color: '#666'}}>At a glance summary of your account!</p>
           </div>
-          <div style={{display: 'flex', gap: '1rem'}}>
+          <div style={{display: 'flex', gap: '1rem', flexWrap: 'wrap'}}>
             {user.kycStatus === 'not_submitted' && (
               <Link to="/kyc-verification" className="btn" style={{background: '#ffc107', color: '#000', padding: '0.75rem 1.5rem', fontWeight: 'bold', border: '2px solid #ff9800'}}>⚠️ Verify KYC</Link>
             )}
@@ -99,7 +120,7 @@ const Dashboard = () => {
         </div>
 
         {/* Overview Card */}
-        <div style={{background: 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)', borderRadius: '15px', padding: '2rem', marginBottom: '2rem', color: 'white', display: 'flex', justifyContent: 'space-between'}}>
+        <div className="overview-card" style={{background: 'linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)', borderRadius: '15px', padding: '2rem', marginBottom: '2rem', color: 'white', display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1.5rem'}}>
           <div>
             <h3 style={{margin: '0 0 1rem 0', fontSize: '0.9rem', opacity: 0.9}}>Last Login</h3>
             <p style={{fontSize: '1rem'}}>{new Date().toLocaleDateString('en-US', { month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: true })}</p>
@@ -162,7 +183,7 @@ const Dashboard = () => {
         </div>
 
         {/* Recent Transactions & Balance Flow */}
-        <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '2rem'}}>
+        <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem'}}>
           {/* Recent Transactions */}
           <div style={{background: 'white', padding: '1.5rem', borderRadius: '10px', boxShadow: '0 2px 8px rgba(0,0,0,0.1)'}}>
             <h3 style={{marginBottom: '1rem'}}>Recent Transaction Activities</h3>
@@ -211,6 +232,30 @@ const Dashboard = () => {
           <button className="btn btn-primary">Get Support Now</button>
         </div>
       </div>
+
+      {/* Mobile Menu Toggle Button */}
+      <button
+        onClick={() => setSidebarOpen(!sidebarOpen)}
+        className="mobile-sidebar-toggle"
+        style={{
+          display: 'none',
+          position: 'fixed',
+          bottom: '20px',
+          right: '20px',
+          background: 'var(--primary-navy)',
+          color: 'white',
+          border: 'none',
+          width: '60px',
+          height: '60px',
+          borderRadius: '50%',
+          fontSize: '1.5rem',
+          cursor: 'pointer',
+          boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+          zIndex: 997
+        }}
+      >
+        ☰
+      </button>
     </div>
   );
 };
