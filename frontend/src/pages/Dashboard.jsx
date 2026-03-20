@@ -97,7 +97,7 @@ const Dashboard = () => {
       </div>
 
       {/* Main Content */}
-      <div className="dashboard-main-content" style={{marginLeft: '280px', flex: 1, padding: '2rem'}}>
+     <div className="dashboard-main-content" style={{flex: 1, padding: '2rem'}}>
         {/* Header */}
         <div className="dashboard-header" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem', flexWrap: 'wrap', gap: '1rem'}}>
           <div>
