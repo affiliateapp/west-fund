@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { apiCall } from '../utils/api';
 
+
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -95,8 +96,8 @@ const LoginPage = () => {
           </button>
 
           <p style={{textAlign: 'center', marginTop: '1.5rem'}}>
-            Don't have an account? <a href="/signup">Sign Up</a>
-          </p>
+      Don't have an account? <Link to="/signup">Create Account</Link>
+         </p>
         </form>
       </div>
     </div>
