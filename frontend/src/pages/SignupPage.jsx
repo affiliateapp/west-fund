@@ -20,7 +20,6 @@ const SignupPage = () => {
     annualIncome: '',
     accountType: '',
     accountCurrency: 'USD',
-    twoFactorPin: '',
     password: '',
     confirmPassword: '',
     passportPhoto: ''
@@ -57,11 +56,6 @@ const SignupPage = () => {
 
     if (formData.password.length < 6) {
       setError('Password must be at least 6 characters');
-      return;
-    }
-
-    if (!formData.twoFactorPin || formData.twoFactorPin.length !== 4) {
-      setError('2FA PIN must be 4 digits');
       return;
     }
 
@@ -118,7 +112,7 @@ const SignupPage = () => {
 
           <h4 style={{marginTop: '2rem', marginBottom: '1rem'}}>Address</h4>
           
-          <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1rem', marginBottom: '1rem'}}>
+          <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmin(250px, 1fr))', gap: '1rem', marginBottom: '1rem'}}>
             <div className="form-group">
               <label>Country *</label>
               <select name="country" className="form-control" value={formData.country} onChange={handleChange} required>
@@ -198,7 +192,7 @@ const SignupPage = () => {
 
           <h3 style={{color: 'var(--primary-navy)', marginTop: '2rem', marginBottom: '1.5rem'}}>Banking Details</h3>
           
-          <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '1rem'}}>
+          <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1rem', marginBottom: '1rem'}}>
             <div className="form-group">
               <label>Account Type *</label>
               <select name="accountType" className="form-control" value={formData.accountType} onChange={handleChange} required>
@@ -217,13 +211,9 @@ const SignupPage = () => {
                 <option value="CAD">Canadian Dollars – CAD</option>
               </select>
             </div>
-            <div className="form-group">
-              <label>2FA PIN *</label>
-              <input type="password" name="twoFactorPin" className="form-control" placeholder="••••" value={formData.twoFactorPin} onChange={handleChange} maxLength="4" required />
-            </div>
           </div>
 
-          <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem', marginBottom: '2rem'}}>
+          <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1rem', marginBottom: '2rem'}}>
             <div className="form-group">
               <label>Password *</label>
               <input type="password" name="password" className="form-control" value={formData.password} onChange={handleChange} required />
@@ -245,7 +235,7 @@ const SignupPage = () => {
             <button type="submit" className="btn btn-primary" disabled={loading} style={{padding: '0.75rem 2rem'}}>
               {loading ? 'Creating Account...' : 'Submit'}
             </button>
-            <button type="button" className="btn" style={{background: '#ff6b6b', color: 'white', padding: '0.75rem 2rem'}}>
+            <button type="button" className="btn" style={{background: '#ff6b6b', color: 'white', padding: '0.75rem 2rem'}} onClick={() => window.location.reload()}>
               Reset
             </button>
             <Link to="/login" className="btn btn-secondary" style={{padding: '0.75rem 2rem'}}>

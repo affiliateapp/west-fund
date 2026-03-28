@@ -68,11 +68,15 @@ const Dashboard = () => {
         </div>
 
         {/* Action Buttons */}
+
         <div style={{display: 'flex', flexDirection: 'column', gap: '0.5rem', marginBottom: '1.5rem'}}>
+          <Link to="/deposit" className="btn btn-primary" style={{width: '100%', padding: '0.5rem', fontSize: '0.85rem'}}>💰 DEPOSIT</Link>
           <Link to="/transfer" className="btn btn-primary" style={{width: '100%', padding: '0.5rem', fontSize: '0.85rem'}}>💸 TRANSFER</Link>
-          <button className="btn btn-danger" style={{width: '100%', padding: '0.5rem', fontSize: '0.85rem'}}>📄 PAY BILLS</button>
+          <Link to="/withdraw" className="btn btn-success" style={{width: '100%', padding: '0.5rem', fontSize: '0.85rem'}}>💸 WITHDRAW</Link>
           <Link to="/pending-withdrawals" className="btn" style={{width: '100%', padding: '0.5rem', fontSize: '0.85rem', background: '#9c27b0', color: 'white'}}>📋 MY WITHDRAWALS</Link>
-          <Link to="/withdraw" className="btn btn-success" style={{width: '100%', padding: '0.5rem', fontSize: '0.85rem'}}>💸 WITHDRAW FUNDS</Link>
+          <Link to="/kyc-status" style={{display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem', borderRadius: '5px', marginBottom: '0.4rem', textDecoration: 'none', color: '#666', fontSize: '0.9rem'}}>
+            <span style={{fontWeight: 'bold', fontSize: '1rem'}}>ID</span><span>KYC Status</span>
+          </Link>
         </div>
 
         {/* Menu */}
@@ -111,11 +115,9 @@ const Dashboard = () => {
             {user.kycStatus === 'pending' && (
               <button className="btn" style={{background: '#fff3cd', color: '#856404', padding: '0.75rem 1.5rem', fontWeight: 'bold', border: '2px solid #ffc107', cursor: 'default'}} disabled>⏳ KYC Pending</button>
             )}
-            {user.kycStatus === 'verified' && (
-              <button className="btn" style={{background: '#d4edda', color: '#155724', padding: '0.75rem 1.5rem', fontWeight: 'bold', border: '2px solid #28a745', cursor: 'default'}} disabled>✅ Verified</button>
-            )}
-            <Link to="/deposit" className="btn btn-primary">Deposit →</Link>
-            <Link to="/transfer" className="btn btn-danger">Transfer Fund →</Link>
+            
+              
+            
           </div>
         </div>
 
@@ -240,14 +242,14 @@ const Dashboard = () => {
         style={{
           display: 'none',
           position: 'fixed',
-          bottom: '20px',
+          top: '20px',
           right: '20px',
           background: 'var(--primary-navy)',
           color: 'white',
           border: 'none',
-          width: '60px',
-          height: '60px',
-          borderRadius: '50%',
+          width: '50px',
+          height: '50px',
+          borderRadius: '8px',
           fontSize: '1.5rem',
           cursor: 'pointer',
           boxShadow: '0 4px 12px rgba(0,0,0,0.3)',

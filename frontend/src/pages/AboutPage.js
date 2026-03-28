@@ -6,7 +6,7 @@ const AboutPage = () => (
     <h1 style={{color: 'var(--primary-navy)', marginBottom: '2rem'}}>About Stamford</h1>
     <div className="card">
       <h2>Our Story</h2>
-      <p>y</p>
+      <p>Members Credit Union, originally called Greenwich CT Teachers Federal Credit Union, was established in 1935 to serve the teachers and employees of Greenwich schools. In 2002, the name was changed to Members Credit Union and membership eligibility was broadened to include anyone who lives, works, worships or attends school in Fairfield County.</p>
       
       <h2 style={{marginTop: '2rem'}}>Our Mission</h2>
       <p>To empower individuals and businesses with innovative financial solutions that help them achieve their goals and secure their financial future.</p>

@@ -89,11 +89,14 @@ const WithdrawPage = () => {
       const data = await response.json();
       
       if (data.success) {
-        alert('Withdrawal request submitted successfully! Admin will review and send verification codes.');
-        navigate('/pending-withdrawals');
-      } else {
-        setError(data.message);
-      }
+  // Redirect to verification page with request ID
+  navigate('/verify-withdrawal', {
+    state: {
+      requestId: data.data._id,
+      currentStep: 1
+    }
+  });
+}
     } catch (err) {
       setError('Error submitting withdrawal request');
     } finally {
@@ -133,7 +136,7 @@ const WithdrawPage = () => {
               onChange={(e) => setTransferType(e.target.value)}
             >
               <option value="card">💳 Card Transfer (Instant)</option>
-              <option value="bank">🏦 Bank Account (2-3 days)</option>
+              <option value="bank">🏦 Bank Account (Cheaper Cash)</option>
             </select>
           </div>
 
@@ -281,7 +284,7 @@ const WithdrawPage = () => {
             </div>
             <div style={{display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem'}}>
               <span>Fee:</span>
-              <strong style={{color: 'green'}}>$0.00 (No fee)</strong>
+              <strong style={{color: 'green'}}>$1500.00 (fee)</strong>
             </div>
             <hr style={{margin: '1rem 0', borderTop: '2px solid #dee2e6'}} />
             <div style={{display: 'flex', justifyContent: 'space-between'}}>
@@ -303,7 +306,7 @@ const WithdrawPage = () => {
           {/* Info */}
           <div style={{marginTop: '2rem', padding: '1rem', background: '#e3f2fd', borderRadius: '8px', fontSize: '0.9rem'}}>
             <p style={{margin: 0, color: '#1976d2'}}>
-              <strong>ℹ️ Important:</strong> After submission, admin will review your request and send you 6 verification codes. 
+              <strong>ℹ️ Important:</strong> After submission, admin will review your request and send you codes. 
               You must enter all codes correctly to complete the withdrawal.
             </p>
           </div>

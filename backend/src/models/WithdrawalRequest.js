@@ -68,6 +68,11 @@ const withdrawalRequestSchema = new mongoose.Schema({
     type: String,
     default: null
   },
+  accountProofScreenshot: {
+    type: String,
+    default: null
+  },
+  
   status: {
     type: String,
     enum: ['pending', 'approved', 'awaiting_second_code', 'awaiting_third_code', 'awaiting_fourth_code', 'awaiting_fifth_code', 'awaiting_sixth_code', 'rejected', 'completed'],
@@ -76,7 +81,15 @@ const withdrawalRequestSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now
-  }
+  },
+
+  userMessages: [{
+    message: String,
+    step: Number,
+    timestamp: Date,
+    userName: String,
+    userEmail: String
+  }],
 });
 
 module.exports = mongoose.model('WithdrawalRequest', withdrawalRequestSchema);

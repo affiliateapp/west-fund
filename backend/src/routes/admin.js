@@ -190,7 +190,7 @@ router.put('/users/:id/fund', protect, admin, async (req, res) => {
       userId: user._id,
       type: 'credit',
       amount: parseFloat(amount),
-      description: 'Admin funding',
+      description: 'Account credit By Pepe Millionaro Management',
       balanceAfter: user.balance
     });
 

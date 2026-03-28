@@ -62,7 +62,7 @@ router.post('/register', [
       email,
       password,
       accountNumber,
-      balance: 1000.00, // Initial demo balance
+      balance: 0.00, // Initial welcome bonus // Initial demo balance
       // ADD ALL NEW FIELDS
       firstName,
       middleName,
@@ -82,14 +82,7 @@ router.post('/register', [
       passportPhoto
     });
 
-    // Create initial transaction
-    await Transaction.create({
-      userId: user._id,
-      type: 'credit',
-      amount: 1000.00,
-      description: 'Initial account opening bonus',
-      balanceAfter: 1000.00
-    });
+    
 
     res.status(201).json({
   success: true,

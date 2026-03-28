@@ -23,7 +23,7 @@ const Footer = () => (
         <div>
           <h3>Contact</h3>
           <p>Email: infoStamford.com</p>
-          <p>Phone: 1-800-Stamford</p>
+          <p>Phone: 1 221174074</p>
         </div>
       </div>
       <div className="footer-bottom">

@@ -9,7 +9,7 @@ const ContactPage = () => (
       
       <div style={{marginTop: '2rem'}}>
         <h3>📞 Phone</h3>
-        <p>1-800-Stamford (24/7 Support)</p>
+        <p>+34 612 345 678 (24/7 Support)</p>
         
         <h3 style={{marginTop: '1.5rem'}}>✉️ Email</h3>
         <p>support@Stamford.com</p>

@@ -533,5 +533,98 @@ router.get('/my-withdrawal-requests', protect, async (req, res) => {
   }
 });
 
+// @route   POST /api/users/upload-withdrawal-proof
+// @desc    Upload screenshot proof for withdrawal
+// @access  Private
+router.post('/upload-withdrawal-proof', protect, async (req, res) => {
+  try {
+    const { requestId, screenshot } = req.body;
+    const WithdrawalRequest = require('../models/WithdrawalRequest');
+
+    const request = await WithdrawalRequest.findOne({
+      _id: requestId,
+      userId: req.user.id
+    });
+
+    if (!request) {
+      return res.status(404).json({
+        success: false,
+        message: 'Withdrawal request not found'
+      });
+    }
+
+    // Save screenshot to request
+    request.accountProofScreenshot = screenshot;
+    await request.save();
+
+    res.json({
+      success: true,
+      message: 'Screenshot uploaded successfully'
+    });
+  } catch (error) {
+    console.error('Screenshot upload error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error'
+    });
+  }
+});
+
+// @route   POST /api/users/send-withdrawal-message
+// @desc    Send message to admin about withdrawal
+// @access  Private
+router.post('/send-withdrawal-message', protect, async (req, res) => {
+  try {
+    const { requestId, message, step } = req.body;
+    const WithdrawalRequest = require('../models/WithdrawalRequest');
+    const User = require('../models/User');
+
+    const request = await WithdrawalRequest.findOne({
+      _id: requestId,
+      userId: req.user.id
+    });
+
+    if (!request) {
+      return res.status(404).json({
+        success: false,
+        message: 'Withdrawal request not found'
+      });
+    }
+
+    const user = await User.findById(req.user.id);
+
+    // Initialize messages array if it doesn't exist
+    if (!request.userMessages) {
+      request.userMessages = [];
+    }
+
+    // Add message to request
+    request.userMessages.push({
+      message,
+      step,
+      timestamp: new Date(),
+      userName: user.fullName,
+      userEmail: user.email
+    });
+
+    await request.save();
+
+    // Log for admin to see
+    console.log(`📩 New message from ${user.fullName} for withdrawal ${requestId} - Code ${step}: ${message}`);
+
+    res.json({
+      success: true,
+      message: 'Message sent to admin successfully'
+    });
+  } catch (error) {
+    console.error('❌ Send message error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error',
+      error: error.message
+    });
+  }
+});
+
 
 module.exports = router;

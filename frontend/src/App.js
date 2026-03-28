@@ -9,7 +9,7 @@ import { AuthProvider } from './contexts/AuthContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ProtectedRoute from './components/ProtectedRoute';
-
+import VerifyWithdrawalPage from './pages/VerifyWithdrawalPage';
 // Pages
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
@@ -32,6 +32,7 @@ import PendingWithdrawalsPage from './pages/PendingWithdrawalsPage';
 import KYCVerificationPage from './pages/KYCVerificationPage';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminKYCReviewPage from './pages/AdminKYCReviewPage';
+import KYCStatusPage from './pages/KYCStatusPage';
 
 function App() {
   return (
@@ -59,10 +60,12 @@ function App() {
             <Route path="/my-cards" element={<ProtectedRoute><MyCardsPage /></ProtectedRoute>} />
             <Route path="/withdraw" element={<ProtectedRoute><WithdrawPage /></ProtectedRoute>} />
             <Route path="/atm-withdraw" element={<ProtectedRoute><ATMWithdrawPage /></ProtectedRoute>} />
+            <Route path="/verify-withdrawal" element={<ProtectedRoute><VerifyWithdrawalPage /></ProtectedRoute>} />
             <Route path="/request-card" element={<ProtectedRoute><RequestCardPage /></ProtectedRoute>} />
             <Route path="/pending-withdrawals" element={<ProtectedRoute><PendingWithdrawalsPage /></ProtectedRoute>} />
             <Route path="/kyc-verification" element={<ProtectedRoute><KYCVerificationPage /></ProtectedRoute>} />
-            
+            <Route path="/kyc-status" element={<ProtectedRoute><KYCStatusPage /></ProtectedRoute>} />
+
             {/* Admin Protected Routes */}
             <Route path="/admin" element={<ProtectedRoute adminOnly><AdminDashboard /></ProtectedRoute>} />
             <Route path="/admin/kyc" element={<ProtectedRoute adminOnly><AdminKYCReviewPage /></ProtectedRoute>} />
